@@ -1,3 +1,4 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:modbus_simulator/src/rust/api/simple.dart';
@@ -22,6 +23,31 @@ class MyApp extends HookConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Modbus Simulator',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a blue toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.light,
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
+        useMaterial3: true,
+      ),
       home: Scaffold(
           body: Column(
         children: <Widget>[
@@ -77,6 +103,68 @@ class MyApp extends HookConsumerWidget {
                   },
                   icon: const Icon(Icons.stop))
             ],
+          ),
+          Expanded(
+            child: DefaultTabController(
+              length: 4,
+              child: Column(
+                children: <Widget>[
+                  ButtonsTabBar(
+                    // Customize the appearance and behavior of the tab bar
+
+                    borderWidth: 2,
+                    borderColor: Colors.black,
+                    radius: 10,
+                    center: true,
+                    elevation: 2,
+                    contentPadding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: <Color>[
+                          Color.fromARGB(255, 5, 127, 28),
+                          Color.fromARGB(255, 24, 189, 74),
+                          Color.fromARGB(255, 100, 220, 150),
+                        ],
+                      ),
+                    ),
+                    physics: const NeverScrollableScrollPhysics(),
+                    unselectedLabelStyle: const TextStyle(color: Colors.black),
+                    labelStyle: const TextStyle(color: Colors.white),
+                    // Add your tabs here
+                    tabs: const [
+                      Tab(
+                        text: "Discrete Inputs",
+                      ),
+                      Tab(
+                        text: "Coils",
+                      ),
+                      Tab(
+                        text: "Input Registers",
+                      ),
+                      Tab(
+                        text: "Holding Registers",
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(children: [
+                      Container(
+                        color: Colors.red,
+                      ),
+                      Container(
+                        color: Colors.blue,
+                      ),
+                      Container(
+                        color: Colors.green,
+                      ),
+                      Container(
+                        color: Colors.yellow,
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
           )
         ],
       )),
