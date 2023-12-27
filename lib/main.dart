@@ -7,6 +7,22 @@ import 'package:modbus_simulator/src/rust/api/modbus_server.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modbus_simulator/src/rust/frb_generated.dart';
 
+final dataRowListProvider =
+    StateProvider<List<DataRow>>((ref) => List<DataRow>.generate(
+        10,
+        (index) => DataRow(cells: [
+              DataCell(Text((index).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+              DataCell(Text((0).toString())),
+            ])));
+
 Future<void> main() async {
   await RustLib.init();
   runApp(const ProviderScope(child: MyApp()));
@@ -26,6 +42,30 @@ class _MyAppState extends ConsumerState<MyApp> {
     final portTextEditingController = useTextEditingController();
 
     final isModbusServerRunning = useState(false);
+
+    void updateCell(int cellIndex, String newValue) {
+      final dataRows = ref.read(dataRowListProvider.notifier);
+
+      // Calculate the row and column index
+      int rowIndex = cellIndex ~/ 10; // Integer division to get the row index
+      int columnIndex =
+          cellIndex % 10; // Modulo operation to get the column index
+
+      DataRow rowToUpdate = dataRows.state[rowIndex]; // Get the row to update
+
+      // Create a new DataRow with the updated value
+      DataRow updatedRow = DataRow(cells: [
+        for (int i = 0; i < rowToUpdate.cells.length; i++)
+          if (i == columnIndex)
+            DataCell(Text(newValue)) // The new value for the cell
+          else
+            rowToUpdate.cells[i], // Keep the old value for other cells
+      ]);
+
+      // Replace the old row with the updated one
+      dataRows.state = List<DataRow>.from(dataRows.state)
+        ..[rowIndex] = updatedRow;
+    }
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -96,9 +136,22 @@ class _MyAppState extends ConsumerState<MyApp> {
                   onPressed: () async {
                     var socketAddress =
                         "${ipTextEditingController.text}:${portTextEditingController.text}";
-                    var notify = await getNotify();
-                    serverContext(socketAddr: socketAddress, notify: notify);
-                    isModbusServerRunning.value = true;
+                    try {
+                      var notify = await getNotify();
+                      serverContext(socketAddr: socketAddress, notify: notify);
+                      isModbusServerRunning.value = true;
+                    } catch (e) {
+                      print(e);
+                    }
+                    // Sleep for 5 seconds
+                    await Future.delayed(const Duration(seconds: 3));
+                    var inputRegisters = await getInputRegisters();
+                    for (var i = 0; i < inputRegisters.length; i++) {
+                      updateCell(inputRegisters[i].$1,
+                          inputRegisters[i].$2.toString());
+                    }
+
+                    print(inputRegisters);
                   },
                   icon: const Icon(Icons.play_arrow)),
               const SizedBox(width: 10),
@@ -246,20 +299,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                                     numeric: true,
                                   ),
                                 ],
-                                rows: List<DataRow>.generate(
-                                    10,
-                                    (index) => DataRow(cells: [
-                                          DataCell(Text((index).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                          DataCell(Text((0).toString())),
-                                        ]))),
+                                rows: ref.watch(dataRowListProvider)),
                           ),
                         ],
                       ),

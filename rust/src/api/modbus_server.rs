@@ -19,8 +19,7 @@ use tokio_modbus::{
     prelude::*,
     server::tcp::{accept_tcp_connection, Server},
 };
-
-struct ModbusSimulator {
+pub struct ModbusSimulator {
     input_registers: Arc<Mutex<HashMap<u16, u16>>>,
     holding_registers: Arc<Mutex<HashMap<u16, u16>>>,
 }
@@ -142,6 +141,21 @@ fn register_write(
     Ok(())
 }
 
+lazy_static::lazy_static! {
+    static ref MODBUS_SERVER: std::sync::Arc<ModbusSimulator> = {
+        std::sync::Arc::new(ModbusSimulator::new())
+    };
+}
+
+pub async fn get_input_registers() -> anyhow::Result<Vec<(u16, u16)>> {
+    let input_registers = MODBUS_SERVER.input_registers.lock().unwrap();
+    let mut result: Vec<(u16, u16)> = Vec::new();
+    for (key, value) in input_registers.iter() {
+        result.push((*key, *value));
+    }
+    Ok(result)
+}
+
 #[tokio::main(flavor = "current_thread")]
 pub async fn server_context(
     socket_addr: String,
@@ -151,7 +165,7 @@ pub async fn server_context(
     println!("SERVER: Starting server on {socket_addr}");
     let listener = TcpListener::bind(socket_addr).await?;
     let server = Server::new(listener);
-    let new_service = |_socket_addr| Ok(Some(ModbusSimulator::new()));
+    let new_service = |_socket_addr| Ok(Some(MODBUS_SERVER.clone()));
     let on_connected = |stream, socket_addr| async move {
         accept_tcp_connection(stream, socket_addr, new_service)
     };

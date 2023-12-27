@@ -44,3 +44,9 @@ app.*.map.json
 /android/app/release
 
 /rust/target/*
+
+rust/src/frb_generated.rs
+rust/src/frb_generated.io.rs
+rust/src/frb_generated.web.rs
+
+lib/src/rust/*
