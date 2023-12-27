@@ -10,9 +10,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  plugins:
+    - custom_lint
   strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
+    # implicit-casts: false
+    # implicit-dynamic: false
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
