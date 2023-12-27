@@ -8,3 +8,13 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.0.0-dev.4"
+lazy_static = "1.4.0"
+serde = { version = "1.0.193", features = ["derive"] }
+tokio-modbus = { version = "0.9.0", default-features = false, features = [
+    "tcp-server",
+] }
+futures = { version = "0.3.30" }
+tokio = { version = "1.35.1", default-features = false, features = [
+    "rt-multi-thread",
+] }
+anyhow = "1.0.77"
