@@ -12,11 +12,47 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           body: Column(
         children: <Widget>[
-          HeaderComponent(),
+          const HeaderComponent(),
+          Row(
+            children: <Widget>[
+              const Text(
+                'Protocol: TCP',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'IP Address',
+                    ),
+                  ),
+                ),
+              ),
+              const Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Port',
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.play_arrow)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.stop))
+            ],
+          )
         ],
       )),
     );
