@@ -1,0 +1,9 @@
+/Users/wheregmis/Documents/wheregmis/modbus_simulator/rust/target/debug/deps/libfutures_macro-fdfac9db959ffddc.dylib: /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/lib.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/executor.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/join.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/select.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/stream_select.rs
+
+/Users/wheregmis/Documents/wheregmis/modbus_simulator/rust/target/debug/deps/futures_macro-fdfac9db959ffddc.d: /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/lib.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/executor.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/join.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/select.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/stream_select.rs
+
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/lib.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/executor.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/join.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/select.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.29/src/stream_select.rs:

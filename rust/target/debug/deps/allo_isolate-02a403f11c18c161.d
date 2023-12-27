@@ -1,0 +1,10 @@
+/Users/wheregmis/Documents/wheregmis/modbus_simulator/rust/target/debug/deps/liballo_isolate-02a403f11c18c161.rmeta: /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/lib.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/dart_array.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart_extra.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/chrono.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/ffi.rs
+
+/Users/wheregmis/Documents/wheregmis/modbus_simulator/rust/target/debug/deps/allo_isolate-02a403f11c18c161.d: /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/lib.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/dart_array.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart_extra.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/chrono.rs /Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/ffi.rs
+
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/lib.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/dart_array.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/into_dart_extra.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/chrono.rs:
+/Users/wheregmis/.cargo/registry/src/index.crates.io-6f17d22bba15001f/allo-isolate-0.1.20/src/ffi.rs:
