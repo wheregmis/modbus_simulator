@@ -12,14 +12,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: const Text('Modbus Simulator')),
-        body: Center(
-          child: Text(
-              'Action: Call Rust `greet("Modbus Simulator")`\nResult: `${greet(name: "Modbus Simulator")}`'),
+          body: Column(
+        children: <Widget>[
+          HeaderComponent(),
+        ],
+      )),
+    );
+  }
+}
+
+class HeaderComponent extends StatelessWidget {
+  const HeaderComponent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          'Modbus Simulator',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w400,
+          ),
         ),
-      ),
+        SizedBox(width: 10),
+        Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.settings_display,
+            size: 30,
+          ),
+        ),
+      ],
     );
   }
 }
