@@ -1,4 +1,5 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:modbus_simulator/src/rust/api/simple.dart';
@@ -11,11 +12,16 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends HookConsumerWidget {
+class MyApp extends StatefulHookConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  Widget build(BuildContext context) {
     final ipTextEditingController = useTextEditingController();
     final portTextEditingController = useTextEditingController();
 
@@ -130,6 +136,7 @@ class MyApp extends HookConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     unselectedLabelStyle: const TextStyle(color: Colors.black),
                     labelStyle: const TextStyle(color: Colors.white),
+
                     // Add your tabs here
                     tabs: const [
                       Tab(
@@ -148,8 +155,113 @@ class MyApp extends HookConsumerWidget {
                   ),
                   Expanded(
                     child: TabBarView(children: [
-                      Container(
-                        color: Colors.red,
+                      Column(
+                        children: [
+                          Expanded(
+                            child: DataTable2(
+                                bottomMargin: 10,
+                                horizontalMargin: 50,
+                                // dividerThickness: 1,
+
+                                border: TableBorder.all(),
+                                columns: const [
+                                  DataColumn(
+                                    label: Text(
+                                      '0',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '1',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '2',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '3',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '4',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '5',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '6',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '7',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '8',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      '9',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    numeric: true,
+                                  ),
+                                ],
+                                rows: List<DataRow>.generate(
+                                    10,
+                                    (index) => DataRow(cells: [
+                                          DataCell(Text((index).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                          DataCell(Text((0).toString())),
+                                        ]))),
+                          ),
+                        ],
                       ),
                       Container(
                         color: Colors.blue,
