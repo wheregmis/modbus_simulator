@@ -4,12 +4,30 @@
 // Section: imports
 
 use super::*;
+use crate::api::modbus_server::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
 use flutter_rust_bridge::{Handler, IntoIntoDart};
 
 // Section: dart2rust
 
+impl CstDecode<anyhow::Error> for *mut wire_cst_list_prim_u_8 {
+    fn cst_decode(self) -> anyhow::Error {
+        unimplemented!()
+    }
+}
+impl
+    CstDecode<
+        flutter_rust_bridge::RustOpaque<std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>>,
+    > for *const std::ffi::c_void
+{
+    fn cst_decode(
+        self,
+    ) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>>
+    {
+        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
+    }
+}
 impl CstDecode<String> for *mut wire_cst_list_prim_u_8 {
     fn cst_decode(self) -> String {
         let vec: Vec<u8> = self.cst_decode();
@@ -52,10 +70,51 @@ pub extern "C" fn dart_fn_deliver_output(
 }
 
 #[no_mangle]
+pub extern "C" fn wire_server_context(
+    port_: i64,
+    socket_addr: *mut wire_cst_list_prim_u_8,
+    notify: *const std::ffi::c_void,
+) {
+    wire_server_context_impl(port_, socket_addr, notify)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_notify(port_: i64) {
+    wire_get_notify_impl(port_)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_greet(
     name: *mut wire_cst_list_prim_u_8,
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_greet_impl(name)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_stop_server() -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_stop_server_impl()
+}
+
+#[no_mangle]
+pub extern "C" fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
+            std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>,
+        >(ptr);
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
+            std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>,
+        >(ptr);
+    }
 }
 
 #[no_mangle]

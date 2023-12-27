@@ -4,6 +4,7 @@
 // Section: imports
 
 use super::*;
+use crate::api::modbus_server::*;
 use flutter_rust_bridge::for_generated::byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use flutter_rust_bridge::for_generated::transform_result_dco;
 use flutter_rust_bridge::for_generated::wasm_bindgen;
@@ -20,6 +21,11 @@ where
         (!self.is_null() && !self.is_undefined()).then(|| self.cst_decode())
     }
 }
+impl CstDecode<anyhow::Error> for String {
+    fn cst_decode(self) -> anyhow::Error {
+        unimplemented!()
+    }
+}
 impl CstDecode<String> for String {
     fn cst_decode(self) -> String {
         self
@@ -28,6 +34,23 @@ impl CstDecode<String> for String {
 impl CstDecode<Vec<u8>> for Box<[u8]> {
     fn cst_decode(self) -> Vec<u8> {
         self.into_vec()
+    }
+}
+impl CstDecode<anyhow::Error> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+    fn cst_decode(self) -> anyhow::Error {
+        unimplemented!()
+    }
+}
+impl
+    CstDecode<
+        flutter_rust_bridge::RustOpaque<std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>>,
+    > for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue
+{
+    fn cst_decode(
+        self,
+    ) -> flutter_rust_bridge::RustOpaque<std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>>
+    {
+        unsafe { flutter_rust_bridge::for_generated::cst_decode_rust_opaque(self) }
     }
 }
 impl CstDecode<String> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
@@ -44,6 +67,11 @@ impl CstDecode<Vec<u8>> for flutter_rust_bridge::for_generated::wasm_bindgen::Js
 }
 impl CstDecode<u8> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
     fn cst_decode(self) -> u8 {
+        self.unchecked_into_f64() as _
+    }
+}
+impl CstDecode<usize> for flutter_rust_bridge::for_generated::wasm_bindgen::JsValue {
+    fn cst_decode(self) -> usize {
         self.unchecked_into_f64() as _
     }
 }
@@ -66,6 +94,47 @@ pub fn dart_fn_deliver_output(
 }
 
 #[wasm_bindgen]
+pub fn wire_server_context(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    socket_addr: String,
+    notify: flutter_rust_bridge::for_generated::wasm_bindgen::JsValue,
+) {
+    wire_server_context_impl(port_, socket_addr, notify)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_notify(port_: flutter_rust_bridge::for_generated::MessagePort) {
+    wire_get_notify_impl(port_)
+}
+
+#[wasm_bindgen]
 pub fn wire_greet(name: String) -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
     wire_greet_impl(name)
+}
+
+#[wasm_bindgen]
+pub fn wire_stop_server() -> flutter_rust_bridge::for_generated::WireSyncRust2DartDco {
+    wire_stop_server_impl()
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_increment_strong_count::<
+            std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>,
+        >(ptr);
+    }
+}
+
+#[wasm_bindgen]
+pub fn rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+    ptr: *const std::ffi::c_void,
+) {
+    unsafe {
+        flutter_rust_bridge::for_generated::rust_arc_decrement_strong_count::<
+            std::sync::RwLock<std::sync::Arc<tokio::sync::Notify>>,
+        >(ptr);
+    }
 }

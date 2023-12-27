@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables
 
+import 'api/modbus_server.dart';
 import 'api/simple.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -56,7 +57,20 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 }
 
 abstract class RustLibApi extends BaseApi {
+  Future<void> serverContext(
+      {required String socketAddr, required Notify notify, dynamic hint});
+
+  Future<Notify> getNotify({dynamic hint});
+
   String greet({required String name, dynamic hint});
+
+  void stopServer({dynamic hint});
+
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_Notify;
+
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_Notify;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NotifyPtr;
 }
 
 class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
@@ -66,6 +80,56 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     required super.generalizedFrbRustBinding,
     required super.portManager,
   });
+
+  @override
+  Future<void> serverContext(
+      {required String socketAddr, required Notify notify, dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        var arg0 = cst_encode_String(socketAddr);
+        var arg1 =
+            cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+                notify);
+        return wire.wire_server_context(port_, arg0, arg1);
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: dco_decode_AnyhowException,
+      ),
+      constMeta: kServerContextConstMeta,
+      argValues: [socketAddr, notify],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kServerContextConstMeta => const TaskConstMeta(
+        debugName: "server_context",
+        argNames: ["socketAddr", "notify"],
+      );
+
+  @override
+  Future<Notify> getNotify({dynamic hint}) {
+    return handler.executeNormal(NormalTask(
+      callFfi: (port_) {
+        return wire.wire_get_notify(port_);
+      },
+      codec: DcoCodec(
+        decodeSuccessData:
+            dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify,
+        decodeErrorData: null,
+      ),
+      constMeta: kGetNotifyConstMeta,
+      argValues: [],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kGetNotifyConstMeta => const TaskConstMeta(
+        debugName: "get_notify",
+        argNames: [],
+      );
 
   @override
   String greet({required String name, dynamic hint}) {
@@ -90,6 +154,54 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         argNames: ["name"],
       );
 
+  @override
+  void stopServer({dynamic hint}) {
+    return handler.executeSync(SyncTask(
+      callFfi: () {
+        return wire.wire_stop_server();
+      },
+      codec: DcoCodec(
+        decodeSuccessData: dco_decode_unit,
+        decodeErrorData: null,
+      ),
+      constMeta: kStopServerConstMeta,
+      argValues: [],
+      apiImpl: this,
+      hint: hint,
+    ));
+  }
+
+  TaskConstMeta get kStopServerConstMeta => const TaskConstMeta(
+        debugName: "stop_server",
+        argNames: [],
+      );
+
+  RustArcIncrementStrongCountFnType
+      get rust_arc_increment_strong_count_Notify => wire
+          .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify;
+
+  RustArcDecrementStrongCountFnType
+      get rust_arc_decrement_strong_count_Notify => wire
+          .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify;
+
+  @protected
+  AnyhowException dco_decode_AnyhowException(dynamic raw) {
+    return AnyhowException(raw as String);
+  }
+
+  @protected
+  Notify
+      dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic raw) {
+    return Notify.dcoDecode(raw);
+  }
+
+  @protected
+  Notify dco_decode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      dynamic raw) {
+    return Notify.dcoDecode(raw);
+  }
+
   @protected
   String dco_decode_String(dynamic raw) {
     return raw as String;
@@ -108,6 +220,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void dco_decode_unit(dynamic raw) {
     return;
+  }
+
+  @protected
+  int dco_decode_usize(dynamic raw) {
+    return dcoDecodeI64OrU64(raw);
+  }
+
+  @protected
+  AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer) {
+    var inner = sse_decode_String(deserializer);
+    return AnyhowException(inner);
+  }
+
+  @protected
+  Notify
+      sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          SseDeserializer deserializer) {
+    return Notify.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
+  }
+
+  @protected
+  Notify sse_decode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      SseDeserializer deserializer) {
+    return Notify.sseDecode(
+        sse_decode_usize(deserializer), sse_decode_i_32(deserializer));
   }
 
   @protected
@@ -131,6 +269,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_decode_unit(SseDeserializer deserializer) {}
 
   @protected
+  int sse_decode_usize(SseDeserializer deserializer) {
+    return deserializer.buffer.getUint64();
+  }
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer) {
     return deserializer.buffer.getInt32();
   }
@@ -141,6 +284,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PlatformPointer
+      cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          Notify raw) {
+    // ignore: invalid_use_of_internal_member
+    return raw.cstEncode(move: true);
+  }
+
+  @protected
+  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify raw) {
+    // ignore: invalid_use_of_internal_member
+    return raw.cstEncode();
+  }
+
+  @protected
   int cst_encode_u_8(int raw) {
     return raw;
   }
@@ -148,6 +306,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   void cst_encode_unit(void raw) {
     return raw;
+  }
+
+  @protected
+  int cst_encode_usize(int raw) {
+    return raw;
+  }
+
+  @protected
+  void sse_encode_AnyhowException(
+      AnyhowException self, SseSerializer serializer) {
+    throw UnimplementedError(
+        'not yet supported in serialized mode, feel free to create an issue');
+  }
+
+  @protected
+  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify self, SseSerializer serializer) {
+    sse_encode_usize(self.sseEncode(move: true), serializer);
+  }
+
+  @protected
+  void sse_encode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify self, SseSerializer serializer) {
+    sse_encode_usize(self.sseEncode(move: null), serializer);
   }
 
   @protected
@@ -168,6 +350,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer) {}
+
+  @protected
+  void sse_encode_usize(int self, SseSerializer serializer) {
+    serializer.buffer.putUint64(self);
+  }
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer) {

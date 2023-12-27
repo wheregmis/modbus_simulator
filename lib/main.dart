@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:modbus_simulator/src/rust/api/simple.dart';
+import 'package:modbus_simulator/src/rust/api/modbus_server.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:modbus_simulator/src/rust/frb_generated.dart';
 
@@ -17,12 +18,14 @@ class MyApp extends HookConsumerWidget {
     final ipTextEditingController = useTextEditingController();
     final portTextEditingController = useTextEditingController();
 
+    final isModbusServerRunning = useState(false);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           body: Column(
         children: <Widget>[
-          const HeaderComponent(),
+          HeaderComponent(isModbusServerRunning: isModbusServerRunning),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -57,8 +60,22 @@ class MyApp extends HookConsumerWidget {
                   ),
                 ),
               ),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.play_arrow)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.stop))
+              IconButton(
+                  onPressed: () async {
+                    var socketAddress =
+                        "${ipTextEditingController.text}:${portTextEditingController.text}";
+                    var notify = await getNotify();
+                    serverContext(socketAddr: socketAddress, notify: notify);
+                    isModbusServerRunning.value = true;
+                  },
+                  icon: const Icon(Icons.play_arrow)),
+              const SizedBox(width: 10),
+              IconButton(
+                  onPressed: () {
+                    stopServer();
+                    isModbusServerRunning.value = false;
+                  },
+                  icon: const Icon(Icons.stop))
             ],
           )
         ],
@@ -70,26 +87,30 @@ class MyApp extends HookConsumerWidget {
 class HeaderComponent extends StatelessWidget {
   const HeaderComponent({
     super.key,
+    required this.isModbusServerRunning,
   });
+
+  final ValueNotifier<bool> isModbusServerRunning;
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
+        const Text(
           'Modbus Simulator',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w400,
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Padding(
           padding: EdgeInsets.all(8.0),
           child: Icon(
-            Icons.settings_display,
+            Icons.circle,
             size: 30,
+            color: isModbusServerRunning.value ? Colors.green : Colors.red,
           ),
         ),
       ],

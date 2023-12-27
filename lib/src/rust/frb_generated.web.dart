@@ -3,6 +3,7 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables
 
+import 'api/modbus_server.dart';
 import 'api/simple.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -17,6 +18,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_NotifyPtr => wire
+      .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify;
+
+  @protected
+  AnyhowException dco_decode_AnyhowException(dynamic raw);
+
+  @protected
+  Notify
+      dco_decode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic raw);
+
+  @protected
+  Notify dco_decode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      dynamic raw);
+
   @protected
   String dco_decode_String(dynamic raw);
 
@@ -28,6 +44,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void dco_decode_unit(dynamic raw);
+
+  @protected
+  int dco_decode_usize(dynamic raw);
+
+  @protected
+  AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
+
+  @protected
+  Notify
+      sse_decode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          SseDeserializer deserializer);
+
+  @protected
+  Notify sse_decode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      SseDeserializer deserializer);
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
@@ -42,10 +73,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_decode_unit(SseDeserializer deserializer);
 
   @protected
+  int sse_decode_usize(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
+  String cst_encode_AnyhowException(AnyhowException raw) {
+    throw UnimplementedError();
+  }
 
   @protected
   String cst_encode_String(String raw) {
@@ -58,10 +97,34 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   }
 
   @protected
+  PlatformPointer
+      cst_encode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          Notify raw);
+
+  @protected
+  PlatformPointer cst_encode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify raw);
+
+  @protected
   int cst_encode_u_8(int raw);
 
   @protected
   void cst_encode_unit(void raw);
+
+  @protected
+  int cst_encode_usize(int raw);
+
+  @protected
+  void sse_encode_AnyhowException(
+      AnyhowException self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_Auto_Owned_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+      Notify self, SseSerializer serializer);
 
   @protected
   void sse_encode_String(String self, SseSerializer serializer);
@@ -74,6 +137,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_usize(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
@@ -92,8 +158,30 @@ class RustLibWire extends BaseWire {
       wasmModule.dart_fn_deliver_output(
           call_id, ptr_, rust_vec_len_, data_len_);
 
+  void wire_server_context(
+          NativePortType port_, String socket_addr, Object notify) =>
+      wasmModule.wire_server_context(port_, socket_addr, notify);
+
+  void wire_get_notify(NativePortType port_) =>
+      wasmModule.wire_get_notify(port_);
+
   dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
       wire_greet(String name) => wasmModule.wire_greet(name);
+
+  dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
+      wire_stop_server() => wasmModule.wire_stop_server();
+
+  void rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic ptr) =>
+      wasmModule
+          .rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+              ptr);
+
+  void rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic ptr) =>
+      wasmModule
+          .rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+              ptr);
 }
 
 @JS('wasm_bindgen')
@@ -111,6 +199,22 @@ class RustLibWasmModule implements WasmModule {
   external void dart_fn_deliver_output(int call_id,
       PlatformGeneralizedUint8ListPtr ptr_, int rust_vec_len_, int data_len_);
 
+  external void wire_server_context(
+      NativePortType port_, String socket_addr, Object notify);
+
+  external void wire_get_notify(NativePortType port_);
+
   external dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
       wire_greet(String name);
+
+  external dynamic /* flutter_rust_bridge::for_generated::WireSyncRust2DartDco */
+      wire_stop_server();
+
+  external void
+      rust_arc_increment_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic ptr);
+
+  external void
+      rust_arc_decrement_strong_count_RustOpaque_stdsyncRwLockstdsyncArctokiosyncNotify(
+          dynamic ptr);
 }
