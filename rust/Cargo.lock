@@ -191,9 +191,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge"
-version = "2.0.0-dev.4"
+version = "2.0.0-dev.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1cacfa3fad340d5f93d5b1122c7854d52feeba17c79d898d4319f009ccff7ef2"
+checksum = "e1995faed5e7aa4b28c3d08c7639e966922f9f000806cfc29b0bfb34e448dbab"
 dependencies = [
  "allo-isolate",
  "anyhow",
@@ -222,9 +222,9 @@ dependencies = [
 
 [[package]]
 name = "flutter_rust_bridge_macros"
-version = "2.0.0-dev.4"
+version = "2.0.0-dev.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28ccc6ccb7b5487dfa9a8b90a163886660aea3ea35a403d0f2d6757e99661600"
+checksum = "47e63af89cb6d13b66c3a523d1e001d1ac9adfa11fe5008a77928dffe713e26e"
 
 [[package]]
 name = "futures"
